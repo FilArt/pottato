@@ -8,7 +8,6 @@
   ];
 
   # https://devenv.sh/languages/
-  # languages.rust.enable = true;
   languages.python = {
     enable = true;
     uv = {
@@ -20,9 +19,6 @@
     };
     venv.enable = true;
   };
-
-  # https://devenv.sh/processes/
-  # processes.cargo-watch.exec = "cargo-watch";
 
   # https://devenv.sh/services/
   services.postgres = {
@@ -37,23 +33,8 @@
     ];
   };
 
-  # https://devenv.sh/scripts/
-  scripts.hello.exec = ''
-    echo hello from $GREET
-  '';
-
-  enterShell = ''
-  '';
-
-  # https://devenv.sh/tasks/
-  # tasks = {
-  #   "myproj:setup".exec = "mytool build";
-  #   "devenv:enterShell".after = [ "myproj:setup" ];
-  # };
-
-  # https://devenv.sh/tests/
   enterTest = ''
-    uv run pytest tests/integration
+    uv run --group test pytest tests/integration
   '';
 
   # https://devenv.sh/git-hooks/
@@ -76,14 +57,6 @@
     eslint.enable = true;
     flake-checker.enable = true;
     gitlint.enable = true;
-    mypy = {
-      enable = true;
-      settings.binPath = ".devenv/state/venv/bin/mypy";
-    };
-    pylint = {
-      enable = true;
-      settings.binPath = ".devenv/state/venv/bin/pylint";
-    };
     pyupgrade.enable = true;
     ripsecrets.enable = true;
     ruff.enable = true;
