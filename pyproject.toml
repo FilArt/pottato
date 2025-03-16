@@ -1,0 +1,85 @@
+[project]
+name = "pottato"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "FilArt", email = "filart97@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "asyncpg>=0.30.0",
+    "fastapi>=0.115.11",
+    "jinja2>=3.1.6",
+    "sqlalchemy[asyncio]>=2.0.39",
+    "uvicorn>=0.34.0",
+]
+
+[project.scripts]
+pottato = "pottato:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "alembic>=1.15.1",
+    "mypy>=1.15.0",
+    "pylint>=3.3.5",
+]
+test = [
+    "httpx>=0.28.1",
+    "psycopg>=3.2.6",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.25.3",
+    "pytest-postgresql>=7.0.0",
+    "pytest-mock>=3.14.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+python_files = "test_*.py"
+python_functions = "test_*"
+python_classes = "Test* *Tests"
+addopts = "-vv -x"
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+
+[tool.mypy]
+check_untyped_defs = true
+namespace_packages = true
+plugins = "sqlalchemy.ext.mypy.plugin"
+pretty = true
+show_error_context = true
+exclude = ".venv"
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pytest",
+    "pytest_postgresql.*"
+]
+ignore_missing_imports = true
+
+[tool.pylint.MAIN]
+ignore-paths = [
+  "tests/",
+  ".devenv/",
+  "alembic/"
+]
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+]
+
+[tool.pylint.FORMAT]
+max-line-length = 100
+
+
+[tool.ruff]
+line-length = 100

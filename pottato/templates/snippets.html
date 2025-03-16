@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Snippets</h1>
+
+Create new:
+<form action="/snippets/" method="post">
+  <input type="text" name="name" placeholder="Name">
+  <input type="text" name="code" placeholder="Code">
+  <button type="submit">Create</button>
+</form>
+
+
+<ul>
+  {% for snippet in snippets %}
+  <li>
+    <a href="/snippets/{{ snippet.id }}">{{ snippet.name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
