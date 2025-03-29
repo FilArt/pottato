@@ -1,7 +1,8 @@
 from contextlib import ExitStack
 
+from fastapi import FastAPI
 import pytest
-from fastapi.testclient import TestClient
+from httpx import ASGITransport, AsyncClient
 from pytest_postgresql import factories
 from pytest_postgresql.janitor import DatabaseJanitor
 
@@ -16,9 +17,9 @@ def app():
 
 
 @pytest.fixture
-def client(app):
-    with TestClient(app) as c:
-        yield c
+async def client(app: FastAPI):
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test/api") as ac:
+        yield ac
 
 
 test_db = factories.postgresql_proc(port=None, dbname="test_db")

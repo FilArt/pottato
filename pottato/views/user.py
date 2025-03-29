@@ -23,7 +23,7 @@ class UserSchema(UserSchemaBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-@router.get("/get-user", response_model=UserSchema)
+@router.get("/get-user", response_model=UserSchema | None)
 async def get_user(id: str, db: AsyncSession = Depends(get_db)):  # pylint: disable=redefined-builtin
     user = await UserModel.get(db, id)
     return user
