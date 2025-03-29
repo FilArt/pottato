@@ -1,6 +1,4 @@
 {pkgs, ...}: {
-  env.LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-
   # https://devenv.sh/packages/
   packages = with pkgs; [
     ruff
@@ -50,18 +48,21 @@
     check-toml.enable = true;
     check-yaml.enable = true;
     commitizen.enable = true;
-    conform.enable = true;
     dialyzer.enable = true;
     editorconfig-checker.enable = true;
     end-of-file-fixer.enable = true;
     eslint.enable = true;
     flake-checker.enable = true;
-    gitlint.enable = true;
     pyupgrade.enable = true;
     ripsecrets.enable = true;
     ruff.enable = true;
     ruff-format.enable = true;
   };
 
-  # See full reference at https://devenv.sh/reference/options/
+  scripts = {
+    migrate.exec = "alembic upgrade head";
+    downgrade.exec = "alembic downgrade -1";
+    makemigrations.exec = "alembic revision --autogenerate -m $1";
+    "test:int".exec = "uv run --group test pytest tests/integration";
+  };
 }
