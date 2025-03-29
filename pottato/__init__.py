@@ -2,6 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from pottato.views import include_routers
+
 from .config import Config
 from .services.database import sessionmanager
 
@@ -21,8 +23,6 @@ def init_app(init_db: bool = True) -> FastAPI:
     else:
         server = FastAPI(title=title)
 
-    from .views.user import router as user_router  # pylint: disable=import-outside-toplevel
-
-    server.include_router(user_router, prefix="/api", tags=["user"])
+    include_routers(server)
 
     return server
