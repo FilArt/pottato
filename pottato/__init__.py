@@ -2,27 +2,23 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from pottato.config import Config
+from pottato.services.db import register_orm
 from pottato.views import include_routers
 
-from .config import Config
-from .services.database import sessionmanager
 
+def init_app() -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):  # pylint: disable=unused-argument
+        breakpoint()
+        yield
+        breakpoint()
 
-def init_app(init_db: bool = True) -> FastAPI:
-    title = "Pottato"
-    if init_db:
-        sessionmanager.init(Config.DB_CONFIG)
+    app = FastAPI(title="Pottato", lifespan=lifespan)
 
-        @asynccontextmanager
-        async def lifespan(app: FastAPI):  # pylint: disable=unused-argument
-            yield
-            if not sessionmanager.is_initialized:
-                await sessionmanager.close()
+    include_routers(app)
 
-        server = FastAPI(title=title, lifespan=lifespan)
-    else:
-        server = FastAPI(title=title)
+    config = Config()
+    register_orm(app, config.DB_URL, generate_schemas=config.TESTING)
 
-    include_routers(server)
-
-    return server
+    return app

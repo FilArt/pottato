@@ -8,9 +8,11 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "asyncpg>=0.30.0",
-    "fastapi>=0.115.11",
+    "fastapi[standard]>=0.115.11",
     "jinja2>=3.1.6",
-    "sqlalchemy[asyncio]>=2.0.39",
+    "pydantic-settings>=2.8.1",
+    "python-multipart>=0.0.20",
+    "tortoise-orm[asyncpg]>=0.24.2",
     "uvicorn>=0.34.0",
 ]
 
@@ -49,7 +51,6 @@ asyncio_default_fixture_loop_scope = "session"
 [tool.mypy]
 check_untyped_defs = true
 namespace_packages = true
-plugins = "sqlalchemy.ext.mypy.plugin"
 pretty = true
 show_error_context = true
 exclude = ".venv"

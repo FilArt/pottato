@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+  env = {
+    DB_URL = "asyncpg://localhost:6699/postgres";
+  };
   # https://devenv.sh/packages/
   packages = with pkgs; [
     ruff
@@ -64,6 +67,6 @@
     downgrade.exec = "alembic downgrade -1";
     makemigrations.exec = "alembic revision --autogenerate -m $1";
     "test:int".exec = "uv run --group test pytest tests/integration";
-    run.exec = "uv run uvicorn main:app";
+    run.exec = "uv run uvicorn run:server --reload";
   };
 }
