@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   env = {
+    PYTHONASYNCIODEBUG = 1;
     DB_URL = "asyncpg://localhost:6699/postgres";
+    DEBUG = true;
   };
   # https://devenv.sh/packages/
   packages = with pkgs; [

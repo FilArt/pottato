@@ -32,7 +32,7 @@ async def run_code(code: CodeSchema):
     return {"result": result}
 
 
-@router.get("/files", response_class=FileModel)
+@router.get("/files")
 async def get_files():
     files = await FileModel.all()
     return {"files": files}
